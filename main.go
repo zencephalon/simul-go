@@ -65,10 +65,10 @@ func (p *Board) InBoundary(r, c int) bool {
    return !((r < 0 || r >= p.h) || (c < 0 || c >= p.w))
 }
 
-func (p *Board) GetMove() (r, c int) {
+func (p *Board) GetMove(msg string) (r, c int) {
    r, c = -1, -1
    for !p.ValidMove(r, c) {
-      fmt.Println("Please enter a move: (int, int)")
+      fmt.Println(msg, "Please enter a move: (int, int)")
       fmt.Scanf("%d,%d", &r, &c)
    }
    return r, c
@@ -103,8 +103,8 @@ func (p *Board) ResolveTurn(r1, c1, r2, c2 int) {
 }
 
 func (p *Board) DoTurn() {
-   r1, c1 := p.GetMove()
-   r2, c2 := p.GetMove()
+   r1, c1 := p.GetMove("X")
+   r2, c2 := p.GetMove("O")
    p.ResolveTurn(r1, c1, r2, c2)
    p.Print()
 }
