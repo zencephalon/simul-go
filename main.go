@@ -50,9 +50,19 @@ func (p *Game) Print() {
       }
       return o
    }
+   fmt.Printf("X: %d O: %d\n\n", p.s1, p.s2)
+   print(" ")
+   for c := 0; c < p.w; c++ {
+      print(c)
+   }
+   println()
    for r := 0; r < p.h; r++ {
+      print(r)
       for c := 0; c < p.w; c++ {
          print(f(p.board[r][c]))
+      }
+      for c := 0; c < p.w; c++ {
+         print(p.board[r][c].freedom)
       }
       println()
    }
