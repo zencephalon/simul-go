@@ -2,7 +2,7 @@ package main
 
 import (
    "fmt"
-   "strconv"
+   //"strconv"
 )
 
 type Space struct {
@@ -38,12 +38,14 @@ func (p *Board) Init(w, h int) *Board {
 func (p *Board) Print() {
    f := func(s Space) (o string) {
       switch s.color {
+      case -1:
+         o = "#"
       case 0:
-         o = strconv.Itoa(s.freedom)
+         o = "." //strconv.Itoa(s.freedom)
       case 1:
-         o = "x"
+         o = "X"
       case 2:
-         o = "o"
+         o = "O"
       }
       return o
    }
@@ -91,12 +93,25 @@ func (p *Board) SetFreedom(r, c, freedom int) {
    }
 }
 
+func (p *Board) ResolveTurn(r1, c1, r2, c2 int) {
+   if r1 == r2 && c1 == c2 {
+      p.PlaceColor(r1, c1, -1)
+   } else {
+      p.PlaceColor(r1, c1, 1)
+      p.PlaceColor(r2, c2, 2)
+   }
+}
+
+func (p *Board) DoTurn() {
+   r1, c1 := p.GetMove()
+   r2, c2 := p.GetMove()
+   p.ResolveTurn(r1, c1, r2, c2)
+   p.Print()
+}
+
 func main() {
    board := new(Board).Init(10, 10)
-   board.PlaceColor(5, 5, 1)
-   board.Print()
-   r, c := board.GetMove()
-   board.PlaceColor(r, c, 1)
-   fmt.Printf("Got two numbers %d, %d\n", r, c)
-   board.Print()
+   for {
+      board.DoTurn()
+   }
 }
